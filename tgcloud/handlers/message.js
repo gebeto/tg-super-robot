@@ -8,6 +8,8 @@ const replacePatterns = {
   "vt.tiktok.com": "kkclip.com",
   "www.instagram.com": "kkclip.com",
   "instagram.com": "kkclip.com",
+  "www.reddit.com": "vxreddit.com",
+  "reddit.com": "vxreddit.com",
 };
 
 export default async function (message, ctx) {
