@@ -4,10 +4,32 @@
 
 import { api } from 'sdk';
 
+const replacePatterns = {
+  "vt.tiktok.com": "kkclip.com",
+};
+
 export default async function (message, ctx) {
-  // Echo the text back — replace with your own logic.
-  await api.sendMessage({
-    chat_id: message.chat.id,
-    text: `You said: ${message.text ?? '(no text)'}`,
-  });
+  if (message.text) {
+    const foundKey = Object.keys(replacePatterns).find(p => message.text.includes(p));
+
+    if (foundKey) {
+      await api.sendMessage({
+        chat_id: message.chat.id,
+        text: message.text.replace(foundKey, replacePatterns[foundKey]),
+        reply_parameters: {
+          message_id: message.message_id,
+        },
+      });
+    }
+
+    if (message.text === 'test') {
+      await api.sendMessage({
+        chat_id: message.chat.id,
+        text: JSON.stringify(message),
+        reply_parameters: {
+          message_id: message.message_id,
+        },
+      });
+    }
+  }
 }
