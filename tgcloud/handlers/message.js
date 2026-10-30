@@ -1,8 +1,5 @@
-// handlers/message.js — runs on each `message` update. The file name is the
-// Telegram update type; the platform calls the default export with the matching
-// payload (here, a Message). The full update is available as `ctx.update`.
-
 import { api } from 'sdk';
+import { URL } from '../lib/URL.js'
 
 const replacePatterns = {
   "vt.tiktok.com": "kkclip.com",
@@ -30,15 +27,7 @@ export default async function (message, ctx) {
       }
 
       return;
-    } catch(e) {
-      // await api.sendMessage({
-      //   chat_id: message.chat.id,
-      //   text: e.message,
-      //   reply_parameters: {
-      //     message_id: message.message_id,
-      //   },
-      // });
-    }
+    } catch {}
 
     // const foundKey = Object.keys(replacePatterns).find(p => message.text.includes(p));
 
@@ -52,14 +41,14 @@ export default async function (message, ctx) {
     //   });
     // }
 
-    // if (message.text === 'test') {
-    //   await api.sendMessage({
-    //     chat_id: message.chat.id,
-    //     text: JSON.stringify(message),
-    //     reply_parameters: {
-    //       message_id: message.message_id,
-    //     },
-    //   });
-    // }
+    if (message.text === 'test') {
+      await api.sendMessage({
+        chat_id: message.chat.id,
+        text: JSON.stringify(message),
+        reply_parameters: {
+          message_id: message.message_id,
+        },
+      });
+    }
   }
 }
