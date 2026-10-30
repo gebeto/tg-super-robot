@@ -14,26 +14,52 @@ const replacePatterns = {
 
 export default async function (message, ctx) {
   if (message.text) {
-    const foundKey = Object.keys(replacePatterns).find(p => message.text.includes(p));
+    try {
+      const messageUrl = new URL(message.text);
+      if (replacePatterns[messageUrl.host]) {
+        messageUrl.host = replacePatterns[messageUrl.host];
+        messageUrl.search = '';
 
-    if (foundKey) {
-      await api.sendMessage({
-        chat_id: message.chat.id,
-        text: message.text.replace(foundKey, replacePatterns[foundKey]),
-        reply_parameters: {
-          message_id: message.message_id,
-        },
-      });
+        await api.sendMessage({
+          chat_id: message.chat.id,
+          text: messageUrl.toString(),
+          reply_parameters: {
+            message_id: message.message_id,
+          },
+        });
+      }
+
+      return;
+    } catch(e) {
+      // await api.sendMessage({
+      //   chat_id: message.chat.id,
+      //   text: e.message,
+      //   reply_parameters: {
+      //     message_id: message.message_id,
+      //   },
+      // });
     }
 
-    if (message.text === 'test') {
-      await api.sendMessage({
-        chat_id: message.chat.id,
-        text: JSON.stringify(message),
-        reply_parameters: {
-          message_id: message.message_id,
-        },
-      });
-    }
+    // const foundKey = Object.keys(replacePatterns).find(p => message.text.includes(p));
+
+    // if (foundKey) {
+    //   await api.sendMessage({
+    //     chat_id: message.chat.id,
+    //     text: message.text.replace(foundKey, replacePatterns[foundKey]),
+    //     reply_parameters: {
+    //       message_id: message.message_id,
+    //     },
+    //   });
+    // }
+
+    // if (message.text === 'test') {
+    //   await api.sendMessage({
+    //     chat_id: message.chat.id,
+    //     text: JSON.stringify(message),
+    //     reply_parameters: {
+    //       message_id: message.message_id,
+    //     },
+    //   });
+    // }
   }
 }
