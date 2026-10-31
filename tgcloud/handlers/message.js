@@ -20,6 +20,7 @@ export default async function (message, ctx) {
         await api.sendMessage({
           chat_id: message.chat.id,
           text: messageUrl.toString(),
+          disable_notification: true,
           reply_parameters: {
             message_id: message.message_id,
           },
@@ -45,6 +46,7 @@ export default async function (message, ctx) {
       await api.sendMessage({
         chat_id: message.chat.id,
         text: JSON.stringify(message),
+        disable_notification: true,
         reply_parameters: {
           message_id: message.message_id,
         },
